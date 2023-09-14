@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: receiver-deployment
+  labels:
+    app: receiver
+spec:
+  selector:
+    matchLabels:
+      app: receiver
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: receiver
+    spec:
+      containers:
+      - name: receiver-container
+        image: rec-img:0001
+        ports:
+        - containerPort: 80

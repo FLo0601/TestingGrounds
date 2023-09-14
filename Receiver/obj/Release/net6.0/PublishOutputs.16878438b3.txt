@@ -1,0 +1,5 @@
+C:\Users\FlorianDewitz\Documents\PrivateProjects\Receiver\bin\Release\net6.0\publish\Receiver.exe
+C:\Users\FlorianDewitz\Documents\PrivateProjects\Receiver\bin\Release\net6.0\publish\Receiver.dll
+C:\Users\FlorianDewitz\Documents\PrivateProjects\Receiver\bin\Release\net6.0\publish\Receiver.deps.json
+C:\Users\FlorianDewitz\Documents\PrivateProjects\Receiver\bin\Release\net6.0\publish\Receiver.runtimeconfig.json
+C:\Users\FlorianDewitz\Documents\PrivateProjects\Receiver\bin\Release\net6.0\publish\Receiver.pdb

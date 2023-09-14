@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: repeater-deployment
+  labels:
+    app: repeater
+spec:
+  selector:
+    matchLabels:
+      app: repeater
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: repeater
+    spec:
+      containers:
+      - name: repeater-container
+        image: rep-img:0001
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+        env:
+        - name: my-ip
+          valueFrom:
+            fieldRef:
+                fieldPath: status.podIP

@@ -1,0 +1,5 @@
+C:\Users\FlorianDewitz\Documents\PrivateProjects\Kubernetes tests\Repeater\bin\Release\net6.0\publish\Repeater.exe
+C:\Users\FlorianDewitz\Documents\PrivateProjects\Kubernetes tests\Repeater\bin\Release\net6.0\publish\Repeater.dll
+C:\Users\FlorianDewitz\Documents\PrivateProjects\Kubernetes tests\Repeater\bin\Release\net6.0\publish\Repeater.deps.json
+C:\Users\FlorianDewitz\Documents\PrivateProjects\Kubernetes tests\Repeater\bin\Release\net6.0\publish\Repeater.runtimeconfig.json
+C:\Users\FlorianDewitz\Documents\PrivateProjects\Kubernetes tests\Repeater\bin\Release\net6.0\publish\Repeater.pdb
