@@ -1,29 +1,28 @@
-﻿namespace Receiver
-{
-    internal class Program
-    {
-        static async Task Main(string[] args)
-        {
-            HttpClient heySend = new HttpClient();
+﻿using System.Net;
+using System.Net.Sockets;
+using System.Text;
 
+namespace Receiver
+{
+    class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            int port = 15000;
+            using UdpClient udp = new UdpClient(port);
+            Receive(udp);
+        }
+
+        private static void Receive(Object udp)
+        {
             while (true)
             {
-                Console.Write("URI: ");
-                string uri = Console.ReadLine();
-                try
-                {
-                    HttpRequestMessage heyMessage = new HttpRequestMessage(HttpMethod.Post, uri);
-                    Console.Write("Message: ");
-                    string heyLine = Console.ReadLine();
-                    heyMessage.Content = new StringContent(heyLine);
-                    await heySend.SendAsync(heyMessage);
-                    Console.WriteLine("Message send");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("URI could not be reached");
-                    Console.WriteLine(ex.ToString());
-                }
+                IPEndPoint server = new IPEndPoint(IPAddress.Any, 0);
+
+                byte[] packet = ((UdpClient) udp).Receive(ref server);
+                Console.WriteLine(Encoding.ASCII.GetString(packet));
+
+                Console.WriteLine("MessageReceived");
             }
         }
     }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "MNKEGVGeYicQSkWRwqZfxIreT/pJh8AO5aDkHUsSMnGyCmc6DZfEb51cDwO0ezV4r9TXz8E4sz0J8eqhELgDug==",
+  "dgSpecHash": "xZz791KFzwS2vnIPuJ8NaWgPgTbmB0Bmx/WRyNsYNxZpILm1DEhlDf+sBI65N+ExGKBVRVZLQLVhikRXZYMbgg==",
   "success": true,
   "projectFilePath": "C:\\Users\\FlorianDewitz\\Documents\\PrivateProjects\\Kubernetes tests\\KubeRequest\\KubeRequest.csproj",
   "expectedPackageFiles": [

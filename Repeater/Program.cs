@@ -7,25 +7,27 @@ namespace Repeater
         
         class Program
         {
+            static int port = 15000;
+            static string ipstr;
+
             public static void Main(string[] args)
             {
-                int port = 15000;
-                Console.WriteLine($"{Environment.GetEnvironmentVariable("my-ip")}");
+                ipstr = Environment.GetEnvironmentVariable("my-ip");
                 using UdpClient udp = new UdpClient(port);
                 var th = new Thread(Receive);
                 th.Start(udp);
                 while (true)
                 {
-                    Send(udp, port);
-                    Console.WriteLine("Beep");
+                    Send(udp);
+                    Console.WriteLine($"Beep from {ipstr}");
                 }
             }
 
-            private static void Send(UdpClient udp, int port)
+            private static void Send(UdpClient udp)
             {
                 IPEndPoint groupEP = new IPEndPoint(IPAddress.Broadcast, port);
 
-                string message = "I want to receive this!";
+                string message = $"Send from {ipstr}";
                 byte[] sendBytes = Encoding.ASCII.GetBytes(message);
 
                 udp.Send(sendBytes, sendBytes.Length, groupEP);

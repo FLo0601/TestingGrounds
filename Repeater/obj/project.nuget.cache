@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "+VumAxZmzDomQUlKfRUOo4X5zyiOrFMbd+NaMUAAEsR5+m0wUzvLYD6p5eWpQVnIMJJqj3ywhvazPJTPIbBP0A==",
+  "dgSpecHash": "Gc0h0TBszT7oXJlQuPCKFBfQqOEmLM43vQ5PPr4MDzGywFuiSluKzLSLlYMBcc1AS60dPsJmRHOpuxCDR1jKMA==",
   "success": true,
   "projectFilePath": "C:\\Users\\FlorianDewitz\\Documents\\PrivateProjects\\Kubernetes tests\\Repeater\\Repeater.csproj",
   "expectedPackageFiles": [
