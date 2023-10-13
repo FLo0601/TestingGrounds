@@ -1,4 +1,6 @@
 ﻿using System.Net;
+using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using k8s;
 using Microsoft.IdentityModel.Tokens;
@@ -12,12 +14,11 @@ namespace KubeRequest
             var config = KubernetesClientConfiguration.InClusterConfig();
             var client = new Kubernetes(config);
             KubeService kbs = new KubeService();
-            kbs.listPodIps().ForEach(x => Console.WriteLine(x));
-            var th = new Thread(kbs.receiveMessage);
+            var th = new Thread(kbs.Receive);
             th.Start();
             while (true)
             {
-                kbs.sendMessage();
+                kbs.Send();
                 Thread.Sleep(10000);
             }
         }
@@ -27,13 +28,16 @@ namespace KubeRequest
     {
         private KubernetesClientConfiguration config;
         private Kubernetes client;
-        private HttpClient httpClient;
+        private UdpClient udpClient;
+        private int port = 15000;
+        private string ipstr;
 
         public KubeService()
         {
             config = KubernetesClientConfiguration.InClusterConfig();
             client = new Kubernetes(config);
-            httpClient = new HttpClient();
+            udpClient = new UdpClient(port);
+            ipstr = Environment.GetEnvironmentVariable("podIP");
         }
 
         public List<string> listPodIps()
@@ -46,38 +50,34 @@ namespace KubeRequest
             return ips;
         }
 
-        public void sendMessage()
+        public void Send()
         {
-            List<string> list = listPodIps();
-            foreach (var ips in list)
+            foreach (var podIp in listPodIps())
             {
-                if (ips.Equals(Environment.GetEnvironmentVariable("podIP"))) continue;
-                httpClient.BaseAddress = new Uri($"http://{ips}:80/");
-                HttpRequestMessage msg = new HttpRequestMessage(HttpMethod.Post, httpClient.BaseAddress);
-                msg.Content = new StringContent("Ping!");
-                Console.WriteLine("Request sending...");
-                HttpResponseMessage response = httpClient.Send(msg);
-                string responseMsg = new StreamReader(response.Content.ReadAsStream()).ReadToEnd();
-                Console.WriteLine($"Request response: {responseMsg}");
+
+                IPEndPoint groupEP = new IPEndPoint(IPAddress.Parse(podIp), this.port);
+
+                string message = $"Send from {ipstr}";
+                byte[] sendBytes = Encoding.ASCII.GetBytes(message);
+
+                udpClient.Send(sendBytes, sendBytes.Length, groupEP);
+
+                Console.WriteLine("Message send!");
             }
-                
+            Thread.Sleep(10000);
         }
 
-        public void receiveMessage()
+        public void Receive()
         {
-            HttpListener listenr = new HttpListener();
-            listenr.Start();
-            listenr.Prefixes.Add("http://*:80/");
-            var reqContext = listenr.GetContext();
-            string reqText = new StreamReader(reqContext.Request.InputStream).ReadToEnd();
-            Console.WriteLine($"Request Comming in: {reqText}");
-            byte[] responseBytes = Encoding.UTF8.GetBytes("Pong!");
-            reqContext.Response.StatusCode = 200;
-            reqContext.Response.KeepAlive = false;
-            reqContext.Response.ContentLength64 = responseBytes.Length;
-            reqContext.Response.OutputStream.Write(responseBytes, 0, responseBytes.Length);
-            reqContext.Response.Close();
-            Console.WriteLine("Response sending...");
+            while (true)
+            {
+                IPEndPoint server = new IPEndPoint(IPAddress.Any, 0);
+
+                byte[] packet = ((UdpClient)udpClient).Receive(ref server);
+                Console.WriteLine(Encoding.ASCII.GetString(packet));
+
+                Console.WriteLine("MessageReceived");
+            }
         }
     }
 }
