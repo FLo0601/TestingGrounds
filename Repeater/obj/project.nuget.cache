@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Gc0h0TBszT7oXJlQuPCKFBfQqOEmLM43vQ5PPr4MDzGywFuiSluKzLSLlYMBcc1AS60dPsJmRHOpuxCDR1jKMA==",
+  "dgSpecHash": "vv2KMzctLvHfYyvl6v+qB9+Plj01ReM6oxo/JKhw6LHlMsw6KzHyv3GcpK2rmyg+yPtQU1F1WBhRthKsEJH4dA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\FlorianDewitz\\Documents\\PrivateProjects\\Kubernetes tests\\Repeater\\Repeater.csproj",
+  "projectFilePath": "C:\\Users\\Omnissiah\\Documents\\PrivateProjects\\KubernetesTests\\Repeater\\Repeater.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\FlorianDewitz\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.19.4\\microsoft.visualstudio.azure.containers.tools.targets.1.19.4.nupkg.sha512"
+    "C:\\Users\\Omnissiah\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.19.4\\microsoft.visualstudio.azure.containers.tools.targets.1.19.4.nupkg.sha512"
   ],
   "logs": []
 }

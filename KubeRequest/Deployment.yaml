@@ -19,3 +19,8 @@ spec:
         image: krq-img:0001
         ports:
         - containerPort: 80
+        env:
+        - name: podIP
+          valueFrom:
+            fieldRef:
+                fieldPath: status.podIP
