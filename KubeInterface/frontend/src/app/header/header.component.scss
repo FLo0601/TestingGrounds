@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  background: grey;
+  height: 5%;
+  font-size: 18px;
+
+  .headerLinks {
+    margin: 0px 100px;
+    align-self: center;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}

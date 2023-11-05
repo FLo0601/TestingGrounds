@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+  height: 100%;
+}
+
+.view {
+  width: 60%;
+  align-self: center;
+  margin: 10%;
+}
+
+.tree {
+  padding: 0 2% 0 0;
+  margin: 5% 3%;
+  border-right: grey 1px solid;
+}

@@ -1,0 +1,11 @@
+.footer {
+  display: flex;
+  flex-direction: row;
+  height: 5%;
+  background: grey;
+
+  div {
+    margin: 100px;
+    align-self: center;
+  }
+}
