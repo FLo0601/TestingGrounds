@@ -2,25 +2,57 @@
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using k8s;
 using Microsoft.IdentityModel.Tokens;
 
 namespace KubeRequest
 {
-    internal class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            var config = KubernetesClientConfiguration.InClusterConfig();
-            var client = new Kubernetes(config);
-            KubeService kbs = new KubeService();
-            var th = new Thread(kbs.Receive);
-            th.Start();
-            while (true)
+            try
             {
-                kbs.Send();
-                Thread.Sleep(10000);
+                KubeService kbs = new KubeService();
+                var th = new Thread(kbs.Receive);
+                th.Start();
+                while (true)
+                {
+                    kbs.Send();
+                    Thread.Sleep(10000);
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Not in a kubernetes");
+            }
+
+            HttpListener listener = new HttpListener();
+            listener.Prefixes.Add("http://localhost:5678/container/");
+            listener.Start();
+            HttpListenerContext context = listener.GetContext();
+            HttpListenerRequest request = context.Request;
+            using (StreamReader reader = new StreamReader(request.InputStream))
+            {
+                string reqMsg = reader.ReadToEnd();
+                Console.WriteLine(reqMsg);
+            }
+            
+            HttpListenerResponse response = context.Response;
+            string jsonString = JsonSerializer.Serialize(new ContainerData
+            {
+                Id = 0,
+                Name = "Container 0",
+                IpAddr = "192.128.0.1"
+            });
+
+            byte[] buffer = Encoding.UTF8.GetBytes(jsonString);
+            response.ContentLength64 = buffer.Length;
+            Stream output = response.OutputStream;
+            output.Write(buffer, 0, buffer.Length);
+            output.Close();
+            listener.Stop();
         }
     }
 
@@ -79,5 +111,12 @@ namespace KubeRequest
                 Console.WriteLine("MessageReceived");
             }
         }
+    }
+
+    public class ContainerData
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string IpAddr { get; set; }
     }
 }
