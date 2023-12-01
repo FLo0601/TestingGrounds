@@ -28,31 +28,41 @@ namespace KubeRequest
                 Console.WriteLine("Not in a kubernetes");
             }
 
-            HttpListener listener = new HttpListener();
-            listener.Prefixes.Add("http://localhost:5678/container/");
-            listener.Start();
-            HttpListenerContext context = listener.GetContext();
-            HttpListenerRequest request = context.Request;
-            using (StreamReader reader = new StreamReader(request.InputStream))
+            int i = 0;
+            while (i < 5)
             {
-                string reqMsg = reader.ReadToEnd();
-                Console.WriteLine(reqMsg);
-            }
-            
-            HttpListenerResponse response = context.Response;
-            string jsonString = JsonSerializer.Serialize(new ContainerData
-            {
-                Id = 0,
-                Name = "Container 0",
-                IpAddr = "192.128.0.1"
-            });
+                HttpListener listener = new HttpListener();
+                listener.Prefixes.Add("http://localhost:5678/container/");
+                listener.Start();
+                HttpListenerContext context = listener.GetContext();
+                HttpListenerRequest request = context.Request;
+                using (StreamReader reader = new StreamReader(request.InputStream))
+                {
+                    string reqMsg = reader.ReadToEnd();
+                    Console.WriteLine(reqMsg);
+                }
 
-            byte[] buffer = Encoding.UTF8.GetBytes(jsonString);
-            response.ContentLength64 = buffer.Length;
-            Stream output = response.OutputStream;
-            output.Write(buffer, 0, buffer.Length);
-            output.Close();
-            listener.Stop();
+                HttpListenerResponse response = context.Response;
+
+                response.AddHeader("Access-Control-Allow-Headers", "*");
+                response.AddHeader("Access-Control-Allow-Methods", "*");
+                response.AddHeader("Access-Control-Allow-Origin", "*");
+
+                string jsonString = JsonSerializer.Serialize(new ContainerData
+                {
+                    Id = 0,
+                    Name = "Container 0",
+                    IpAddr = "192.128.0.1"
+                });
+
+                byte[] buffer = Encoding.UTF8.GetBytes(jsonString);
+                response.ContentLength64 = buffer.Length;
+                Stream output = response.OutputStream;
+                output.Write(buffer, 0, buffer.Length);
+                output.Close();
+                listener.Stop();
+                i++;
+            }
         }
     }
 

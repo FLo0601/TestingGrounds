@@ -7,9 +7,9 @@
         let topContainer = 'placeholder';
         
         async function getContainerName() {
-            response = await fetch("http://localhost:5678/container/", {
+            let response = await fetch("http://localhost:5678/container/", {
                 method: "POST",
-                mode: "no-cors",
+                mode: "cors",
                 cache: "no-cache",
                 credentials: "omit",
                 headers: {
@@ -19,7 +19,8 @@
                 referredPolicy: "no-referrer",
                 body: JSON.stringify({ name: "test", test: "name"}),
             });
-            return response.json();
+            let resJSON = await response.json();
+            return resJSON;
         }
 
         function loadContainerDiv() {
