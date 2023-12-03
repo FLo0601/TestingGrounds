@@ -3,66 +3,7 @@
 <head>
     <link rel="stylesheet" href="styles.css">
     <title>FrontCont</title>
-    <script>
-        let topContainer = 'placeholder';
-        
-        async function getContainerName() {
-            let response = await fetch("http://localhost:5678/container/", {
-                method: "POST",
-                mode: "cors",
-                cache: "no-cache",
-                credentials: "omit",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                redirect: "follow",
-                referredPolicy: "no-referrer",
-                body: JSON.stringify({ name: "test", test: "name"}),
-            });
-            let resJSON = await response.json();
-            return resJSON;
-        }
-
-        function loadContainerDiv() {
-            let containerArr = [
-                {
-                    'id': 1,
-                    'name': 'con1',
-                    'ipAddr': '1234'
-                },
-                {
-                    'id': 2,
-                    'name': 'con2',
-                    'ipAddr': '1234'
-                },
-                {
-                    'id': 3,
-                    'name': 'con3',
-                    'ipAddr': '1234'
-                },
-                {
-                    'id': 4,
-                    'name': 'con4',
-                    'ipAddr': '1234'
-                },
-            ]
-
-            for (let i = 0; i < containerArr.length; i++) {
-                const elem = document.createElement('div');
-                const idCont = document.createTextNode(`Id: ${containerArr[i].id}`);
-                elem.appendChild(idCont);
-                elem.appendChild(document.createElement("br"))
-                const nameCont = document.createTextNode(`Name: ${containerArr[i].name}`);
-                elem.appendChild(nameCont);
-                elem.appendChild(document.createElement("br"))
-                const ipAddrCont = document.createTextNode(`IP: ${containerArr[i].ipAddr}`);
-                elem.appendChild(ipAddrCont);
-                elem.appendChild(document.createElement("br"))
-                document.body.insertAdjacentElement('beforeend', elem)
-            }
-            getContainerName().then((data) => { console.log(data)});
-        }
-    </script>
+    <script src="script.js"></script>
 </head>
 <body onload="loadContainerDiv()">
     <h1>FrontCont</h1>
