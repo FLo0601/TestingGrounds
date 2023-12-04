@@ -5,27 +5,27 @@ function load() {
 
 async function getContainerData() {
     let response = await fetch("http://localhost:5678/containers/", {
-	method: "GET",
-	mode: "cors",
-	cache: "no-cache",
-	credentials: "omit",
-	headers: { "Content-Type": "application/json" },
-	redirect: "follow",
-	referredPolicy: "no-referrer",
+		method: "GET",
+		mode: "cors",
+		cache: "no-cache",
+		credentials: "omit",
+		headers: { "Content-Type": "application/json" },
+		redirect: "follow",
+		referredPolicy: "no-referrer",
     });
     let responseJSON = await response.json();
     return responseJSON;
 }
 
 async function getCurrentContainer() {
-    let response = await fetch("http://localhost:5678/containr/", {
-	method: "GET",
-	mode: "cors",
-	cache: "no-cache",
-	credentials: "omit",
-	headers: { "Content-Type": "application/json" },
-	redirect: "follow",
-	referredPolicy: "no-referrer",
+    let response = await fetch("http://localhost:5678/container/", {
+		method: "GET",
+		mode: "cors",
+		cache: "no-cache",
+		credentials: "omit",
+		headers: { "Content-Type": "application/json" },
+		redirect: "follow",
+		referredPolicy: "no-referrer",
     })
     let responseJSON = await response.json();
     return responseJSON;
