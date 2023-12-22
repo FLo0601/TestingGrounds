@@ -71,6 +71,48 @@ namespace KubeRequest
         }
     }
 
+    public class Server
+    {
+        private HttpListener _listener;
+
+        public Server(HttpListener listener)
+        {
+            _listener = listener;
+        }
+
+        public void StartListening()
+        {
+            _listener.Prefixes.Add("http://localhost:5678/");
+            _listener.Start();
+            HttpListenerContext context = _listener.GetContext();
+            HttpListenerRequest request = context.Request;
+            string? path = request.Url?.LocalPath;
+            string? jsonData = this.ExtractData(request);
+            this.HandlePath(path);
+        }
+
+        private string? ExtractData(HttpListenerRequest request)
+        {
+            if (request.HttpMethod == "GET" || request.HttpMethod == "DELETE") return null;
+
+            using StreamReader reader = new StreamReader(request.InputStream);
+            return reader.ReadToEnd();
+        }
+
+        private string HandlePath(string? path)
+        {
+            switch (path)
+            {
+               case "containers":
+                   return "handle kubeservice and html here";
+               case "container/{key}":
+                   return "handle kubeservice and more html here";
+               default:
+                   return "error";
+            } 
+        }
+    }
+
     public class KubeService
     {
         private KubernetesClientConfiguration config;
@@ -87,7 +129,7 @@ namespace KubeRequest
             ipstr = Environment.GetEnvironmentVariable("podIP");
         }
 
-        public List<string> listPodIps()
+        public List<string> ListPodIps()
         {
             List<string> ips = new List<string>();
             foreach (var pod in this.client.CoreV1.ListNamespacedPod("default").Items)
@@ -99,15 +141,15 @@ namespace KubeRequest
 
         public void Send()
         {
-            foreach (var podIp in listPodIps())
+            foreach (var podIp in ListPodIps())
             {
 
-                IPEndPoint groupEP = new IPEndPoint(IPAddress.Parse(podIp), this.port);
+                IPEndPoint groupIp = new IPEndPoint(IPAddress.Parse(podIp), this.port);
 
                 string message = $"Send from {ipstr}";
                 byte[] sendBytes = Encoding.ASCII.GetBytes(message);
 
-                udpClient.Send(sendBytes, sendBytes.Length, groupEP);
+                udpClient.Send(sendBytes, sendBytes.Length, groupIp);
 
                 Console.WriteLine("Message send!");
             }
